@@ -33,8 +33,20 @@ const loadInitialCardData= () => {
                 globalStore.push(cardObject);
             })
         }
+const saveChanges=()=>{
+    const taskData={
+        id:`${Date.now()}`,
+        imageUrl:document.getElementById("imageurl").value,
+        taskTitle:document.getElementById("tasktitle").value,
+        taskType:document.getElementById("tasktype").value,
+        taskDescription:document.getElementById("taskdescription").value,
+    };
 
-        const deleteCard = (event) =>{
+    taskContainer.insertAdjacentHTML("beforeend",generateNewCard(taskData));
+    globalStore.push(taskData);
+    localStorage.setItem("tasky",JSON.stringify({cards:globalStore}));
+};
+const deleteCard = (event) =>{
     event =window.event;
     const targetID =event.target.id;
     const tagname=event.target.tagName;
@@ -49,20 +61,6 @@ const loadInitialCardData= () => {
    taskContainer.removeChild(document.getElementById(targetID));
 
 };
-const saveChanges=()=>{
-    const taskData={
-        id:`${Date.now()}`,
-        imageUrl:document.getElementById("imageurl").value,
-        taskTitle:document.getElementById("tasktitle").value,
-        taskType:document.getElementById("tasktype").value,
-        taskDescription:document.getElementById("taskdescription").value,
-    };
-
-    taskContainer.insertAdjacentHTML("beforeend",generateNewCard(taskData));
-    globalStore.push(taskData);
-    localStorage.setItem("tasky",JSON.stringify({cards:globalStore}));
-};
-
 
 
 
