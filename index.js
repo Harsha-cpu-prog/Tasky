@@ -1,6 +1,7 @@
-const taskConatiner= document.querySelector(".task_container");
+const taskContainer= document.querySelector(".task_container");
+const globalStore =[];
 
-const generateNewCard=(taskData)=>`
+const generateNewCard=(taskData)=> `
 <div class="col-md-6 col-lg-4" id= ${taskData.id}>
 <div class="card">
     <div class="card-header d-flex justify-content-end gap-2">
@@ -22,6 +23,15 @@ const generateNewCard=(taskData)=>`
 </div>
 </div> 
 `
+const loadInitialCardData= () => {
+    const getCardData=localStorage.getItem("tasky");
+    const {cards} = JSON.parse(getCardData);
+    cards.map((cardObject)=> {
+        
+                taskContainer.insertAdjacentHTML("beforeend",generateNewCard(cardObject));
+                globalStore.push(cardObject);
+            })
+        }
 const saveChanges=()=>{
     const taskData={
         id:`${Date.now()}`,
@@ -31,8 +41,76 @@ const saveChanges=()=>{
         taskDescription:document.getElementById("taskdescription").value,
     };
 
-    taskConatiner.insertAdjacentHTML("beforeend",generateNewCard(taskData));
+    taskContainer.insertAdjacentHTML("beforeend",generateNewCard(taskData));
+    globalStore.push(taskData);
+    localStorage.setItem("tasky",JSON.stringify({cards:globalStore}));
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const loadInitialCardData= () => {
+//     const getCardData=localStorage.getItem("tasky");
+//     const {cards} = JSON.parse(getCardData);
+//     cards.map((cardObject)=> {
+        
+//         taskContainer.insertAdjacentHTML("beforeend",generateNewCard(cardObject));
+//         globalStore.push(cardObject);
+//     })
+
+// }
+
+// const deleteCard = (event) =>{
+//     event =window.event;
+//     const targetID =event.target.id;
+//     const tagname=event.target.tagName;
+//     globalStore = globalStore.filter((cardObject)=>cardObject.id !== targetID);
+//     localStorage.setItem("tasky",JSON.stringify({cards:globalStore}));
+//      if (tagname ==="BUTTON"){
+//          return  taskContainer.removeChild(event.target.parentNode.parentNode.parentNode);
+//      }else{
+//          return taskContainer.removeChild(event.target.parentNode.parentNode.parentNode.parentNode);
+//      }
+
+//    taskContainer.removeChild(document.getElementById(targetID));
+
+// };
+
 
 
 
